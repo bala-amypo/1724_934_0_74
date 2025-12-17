@@ -10,9 +10,16 @@ import com.example.demo.service.StudentService;
 @Service
 public class StudentServiceImpl implements StudentService
 {
+    @Autowired
+    StudentRepo stRepo;
+
     @Override
     public Student insertStudent(Student st)
     {
              
+             stRepo.save(st);
+             return st;
     }
+
+
 }

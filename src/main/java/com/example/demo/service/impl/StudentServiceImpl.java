@@ -21,5 +21,15 @@ public class StudentServiceImpl implements StudentService
              return st;
     }
 
+    @Override
+    public List<Student> getAllStudents()
+    {
+
+        return stRepo.findAll();
+    }
+
+    @Override
+    public 
+
 
 }

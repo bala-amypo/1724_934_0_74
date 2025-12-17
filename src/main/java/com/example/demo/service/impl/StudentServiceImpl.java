@@ -29,7 +29,16 @@ public class StudentServiceImpl implements StudentService
     }
 
     @Override
-    public 
+    public Optional<Student> getOneStudent(Long id)
+    {
+        return stRepo.findbyId(id);
+    }
+
+    @Override
+    public void deleteStudent(Long id)
+    {
+         stRepo.deletebyId(id);
+    }
 
 
 }

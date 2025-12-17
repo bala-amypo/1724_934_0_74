@@ -1,95 +1,66 @@
-// import java.util.List;
+import java.util.List;
+import java.util.Optional;
 
-// import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-// import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.entity.Student;
+import com.example.demo.service.StudentService;
 
-// import org.springframework.web.bind.annotation.CrossOrigin;
+@CrossOrigin(origins = "*")
+@RestController
+public class StudentController {
 
-// import org.springframework.web.bind.annotation.DeleteMapping;
+    @Autowired
+    StudentService studentService;
 
-// import org.springframework.web.bind.annotation.GetMapping;
+    @PostMapping("/PostStudent")
+    public Student postStd(@RequestBody Student st) {
+        return studentService.insertStudent(st);
+    }
 
-// import org.springframework.web.bind.annotation.PathVariable;
+    @GetMapping("/getAll")
+    public List<Student> getAll() {
+        return studentService.getAllStudents();
+    }
 
-// import org.springframework.web.bind.annotation.PostMapping;
+    @GetMapping("/get/{id)")
+    public Optional<Student> get(@PathVariable Long id) {
+        return studentService.getOneStudent(id);
+    }
 
-// import org.springframework.web.bind.annotation.PutMapping;
+    @PutMapping("/update/{id}")
+    public String update(@PathVariable Long id, @RequestBody Student newStudent) {
 
-// import org.springframework.web.bind.annotation.RequestBody;
+        Optional<Student> student = studentService.getOneStudent(id);
 
-// import org.springframework.web.bind.annotation.RestController;
+        if (student.isPresent()) {
+            newStudent.setId(id);
+            studentService.insertStudent(newStudent);
+            return "Updated Success";
+        }
 
-// import com.example.demo.entity.Student;
+        return "Id not found";
+    }
 
-// import com.example.demo.service.StudentService;
+    @DeleteMapping("/del/{id)")
+    public String deleteStudent(@PathVariable Long id) {
 
-// @CrossOrigin(origins= "*")
+        Optional<Student> student = studentService.getOneStudent(id);
 
-// @RestController
+        if (student.isPresent()) {
+            studentService.deleteStudent(id);
+            return "Deleted Success";
 
-// public class StudentController {
+            return "Id Not Found";
+        }
 
-// @Autowired
-
-// StudentService studentService;
-
-// @PostMapping("/PostStudent")
-
-// public Student postStd(@RequestBody Student st) {
-
-// return studentService.insertStudent (st);
-// }
-
-// @GetMapping("/getAll")
-
-// public List<Student> getAll(){
-
-// return studentService.getAllStudents();
-
-// }
-
-// @GetMapping("/get/{id)")
-
-// public Optional<Student> get(@PathVariable Long id){
-//      return studentService.getOneStudent(id);
-
-// }
-
-// @PutMapping("/update/{id}") public String update (@PathVariable Long id, @RequestBody Student newStudent) {
-
-// Optional<Student> student=studentService.getOneStudent(id);
-
-// if(student.isPresent()){
-
-// newStudent.setId(id);
-
-// studentService.insertStudent (newStudent);
-
-// return "Updated Success";
-
-// }
-
-// return "Id not found";
-
-// }
-
-// @DeleteMapping("/del/{id)")
-
-// public String deleteStudent (@PathVariable Long id){
-
-// Optional<Student> student=studentService.getOneStudent (id);
-
-// if(student.isPresent()){
-
-// studentService.deleteStudent(id);
-
-// return "Deleted Success";
-
-// return "Id Not Found";
-
-
-// }
-
-// }
-// }
+    }
+}

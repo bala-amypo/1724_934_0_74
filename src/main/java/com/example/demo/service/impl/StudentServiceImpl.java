@@ -33,6 +33,9 @@ public class StudentServiceImpl implements StudentService
     {
         return stRepo.findById(id);
     }
+   
+    
+    
 
     @Override
     public void deleteStudent(Long id)
